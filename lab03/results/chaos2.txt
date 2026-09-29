@@ -1,0 +1,66 @@
+      /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: .\slo-test.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 20 max VUs, 2m30s max duration (incl. graceful stop):
+              * default: 20 looping VUs for 2m0s (gracefulStop: 30s)
+
+
+
+  █ THRESHOLDS 
+
+    checks
+    ✓ 'rate>0.90' rate=98.17%
+
+    http_req_duration{name:cart}
+    ✓ 'p(95)<200' p(95)=1.04ms
+
+    http_req_duration{name:report}
+    ✓ 'p(95)<450' p(95)=398.41ms
+
+    http_req_failed{name:pay}
+    ✓ 'rate<0.08' rate=5.48%
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 5529   45.552399/s
+    checks_succeeded...: 98.17% 5428 out of 5529
+    checks_failed......: 1.82%  101 out of 5529
+
+    ✓ cart 200
+    ✓ report 200
+    ✗ pay 200
+      ↳  94% — ✓ 1742 / ✗ 101
+
+    HTTP
+    http_req_duration..............: avg=102.51ms min=0s       med=625.9µs  max=413.53ms p(90)=347.42ms p(95)=379.58ms
+      { expected_response:true }...: avg=104.41ms min=0s       med=629.29µs max=413.53ms p(90)=348.85ms p(95)=380.02ms
+      { name:cart }................: avg=563.39µs min=0s       med=517.1µs  max=13.95ms  p(90)=872.71µs p(95)=1.04ms  
+      { name:report }..............: avg=306.6ms  min=199.64ms med=305.18ms max=413.53ms p(90)=388.02ms p(95)=398.41ms
+    http_req_failed................: 1.82%  101 out of 5529
+      { name:pay }.................: 5.48%  101 out of 1843
+    http_reqs......................: 5529   45.552399/s
+
+    EXECUTION
+    iteration_duration.............: avg=1.3s     min=1.2s     med=1.3s     max=1.41s    p(90)=1.39s    p(95)=1.4s    
+    iterations.....................: 1843   15.184133/s
+    vus............................: 3      min=3           max=20
+    vus_max........................: 20     min=20          max=20
+
+    NETWORK
+    data_received..................: 1.4 MB 11 kB/s
+    data_sent......................: 492 kB 4.1 kB/s
+
+
+
+
+running (2m01.4s), 00/20 VUs, 1843 complete and 0 interrupted iterations
+default ✓ [======================================] 20 VUs  2m0s
